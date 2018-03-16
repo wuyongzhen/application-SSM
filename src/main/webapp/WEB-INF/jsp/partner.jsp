@@ -1,8 +1,13 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Wu Yongzhen
+  Date: 2018/3/16
+  Time: 11:21
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="cxt"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +65,7 @@
                         </el-col>
                         <el-col :span="11">
                             <div class="grid-content bg-purple-dark">
-                                <el-input id="test1" placeholder="根据时间搜索" v-model="date"
+                                <el-input id="timing" placeholder="根据时间搜索" v-model="date"
                                           style="padding-bottom:10px;">
                                     <el-button slot="append" v-on:click="search_time">搜索</el-button>
                                 </el-input>
@@ -72,50 +77,23 @@
                         <el-col :span="24">
                             <div class="grid-content bg-purple-dark">
                                 <el-table
-                                        :data="cooperation"
+                                        :data="partner"
                                         border
                                         style="width: 100%">
                                     <el-table-column type="expand">
                                         <template slot-scope="props">
                                             <el-form label-position="left" inline class="demo-table-expand">
-                                                <el-form-item label="成立时间">
-                                                    <span>{{ props.row.establishedTime }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="法人代表">
-                                                    <span>{{ props.row.legalPersonality }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="职务">
-                                                    <span>{{ props.row.duty }}</span>
+                                                <el-form-item label="合伙人年龄">
+                                                    <span>{{ props.row.age }}</span>
                                                 </el-form-item>
                                                 <el-form-item label="手机号">
-                                                    <span>{{ props.row.mobile }}</span>
+                                                    <span>{{ props.row.phone }}</span>
+                                                </el-form-item>
+                                                <el-form-item label="籍贯">
+                                                    <span>{{ props.row.nativePlace }}</span>
                                                 </el-form-item>
                                                 <el-form-item label="电子邮箱">
-                                                    <span>{{ props.row.email }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="主营业务">
-                                                    <span>{{ props.row.business }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="客户主体">
-                                                    <span>{{ props.row.clientSubject }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司核心优势">
-                                                    <span>{{ props.row.advantage }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="申请北京考察">
-                                                    <span>{{ props.row.inspect }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="意向产品项目">
-                                                    <span>{{ props.row.intention }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司地址">
-                                                    <span>{{ props.row.companyAddress }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司人数">
-                                                    <span>{{ props.row.companyScale }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司性质">
-                                                    <span>{{ props.row.nature }}</span>
+                                                    <span>{{ props.row.mailbox }}</span>
                                                 </el-form-item>
                                             </el-form>
                                         </template>
@@ -125,25 +103,24 @@
                                             :index="indexMethod">
                                     </el-table-column>
                                     <el-table-column
-                                            label="公司全称"
+                                            label="单位名称"
                                             prop="companyName">
                                     </el-table-column>
                                     <el-table-column
-                                            label="注册资本"
-                                            prop="registeredCapital">
+                                            label="合伙人"
+                                            prop="name">
                                     </el-table-column>
                                     <el-table-column
-                                            label="公司年流水"
-                                            prop="companyWater">
+                                            label="职务"
+                                            prop="duty">
                                     </el-table-column>
                                     <el-table-column
-                                            label="负责人"
-                                            prop="principal">
-                                    </el-table-column>
-                                    <el-table-column
-                                            width="180"
                                             label="申请时间"
-                                            prop="creationTime">
+                                            prop="createTime">
+                                    </el-table-column>
+                                    <el-table-column
+                                            label="单位地址"
+                                            prop="site">
                                     </el-table-column>
                                     <el-table-column label="操作">
                                         <template slot-scope="scope">
@@ -186,11 +163,9 @@
     new Vue({
         el: '#app',
         data: {
-            cooperation: [],
-            //多选数组
-            multipleSelection: [],
+            partner: [],
             //请求的URL
-            url: '${cxt}/cooperation/list',
+            url: '${cxt}/partner/list',
             //搜索条件
             criteria: '',
             //根据时间搜索条件
@@ -224,14 +199,10 @@
                         return;
                     }
                     var data = res.data;
-                    var project = ['网路宝（盛世云+无线WI-FI监管）项目', '网路神警上网行为审计项目（大型场所）', '特征码采集（卡扣）项目', '食品安全快检技术项目']
-                    for (var i = 0; i < res.data.pagestudentdata.length; i++) {
-                        data.pagestudentdata[i].intention = project[data.pagestudentdata[i].intention - 1];
-                        data.pagestudentdata[i].inspect = data.pagestudentdata[i].inspect == 0 ? '否' : '是';
-                        data.pagestudentdata[i].establishedTime = moment(data.pagestudentdata[i].establishedTime).format('YYYY-MM-DD');//moment.js 格式化时间戳
-                        data.pagestudentdata[i].creationTime = moment(data.pagestudentdata[i].creationTime).format('YYYY-MM-DD HH:mm:ss');//moment.js 格式化时间戳
+                    for (var i = 0; i < res.data.pageData.length; i++) {
+                        data.pageData[i].createTime = moment(data.pageData[i].createTime).format('YYYY-MM-DD HH:mm:ss');//moment.js 格式化时间戳
                     }
-                    _this.cooperation = data.pagestudentdata;
+                    _this.partner = data.pageData;
                     _this.totalCount = data.number;
                 }).catch(function (error) {
                     alert('数据加载失败，请刷新页面重试！');
@@ -254,7 +225,6 @@
             },
             //根据时间搜索
             search_time: function () {
-                console.log(this.date + "11111")
                 this.loadData(this.date, this.currentPage, this.pagesize);
                 this.date = ''
             },
@@ -264,19 +234,17 @@
             },
             //点击备注弹框
             remark(row, index) {
-                this.loadData(this.criteria, this.currentPage, this.pagesize);
                 this.$prompt('请输入备注信息', '提示', {
                     inputValue: index,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(({value}) => {
-                    console.log(row+"---"+index+"----"+value)
-                    this.save_remark(row,value);
-
+                    this.save_remark(row, value);
                     this.$message({
                         type: 'success',
                         message: '备注信息保存成功！'
                     });
+                    this.loadData(this.criteria, this.currentPage, this.pagesize);
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -285,11 +253,11 @@
                 });
 
             },
-            save_remark(row,value) {
-                axios.get('${cxt}/cooperation/saveRemark', {
+            save_remark(row, value) {
+                axios.get('${cxt}/partner/saveRemark', {
                     params: {
-                        id:row,
-                        remark:value
+                        id: row,
+                        remark: value
                     }
                 });
             }
@@ -302,7 +270,7 @@
             // laydate时间控件
             var _this = this;
             laydate.render({
-                elem: '#test1',
+                elem: '#timing',
                 theme: 'grid',
                 done: function (value) {
                     console.log(value); //得到日期生成的值，如：2017-08-18

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssgm.application.dao.PartnerMapper">
+  <resultMap id="BaseResultMap" type="com.ssgm.application.entity.Partner">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="TINYINT" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="site" jdbcType="VARCHAR" property="site" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del" jdbcType="TINYINT" property="del" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, age, phone, native_place, mailbox, company_name, duty, site, create_time, 
+    del
+  </sql>
+  <!--查询合伙人列表-->
+  <select id="findList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from partner
+    where name like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or phone like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or create_time like CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from partner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from partner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ssgm.application.entity.Partner">
+    insert into partner (id, name, age, 
+      phone, native_place, mailbox, 
+      company_name, duty, site, 
+      create_time, del)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, 
+      #{phone,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{del,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssgm.application.entity.Partner">
+    insert into partner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="nativePlace != null">
+        native_place,
+      </if>
+      <if test="mailbox != null">
+        mailbox,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="duty != null">
+        duty,
+      </if>
+      <if test="site != null">
+        site,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="mailbox != null">
+        #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssgm.application.entity.Partner">
+    update partner
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null">
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="mailbox != null">
+        mailbox = #{mailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssgm.application.entity.Partner">
+    update partner
+    set name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=TINYINT},
+      phone = #{phone,jdbcType=VARCHAR},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      mailbox = #{mailbox,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      site = #{site,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      del = #{del,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
