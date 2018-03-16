@@ -23,11 +23,21 @@ public class CooperativePartnerController {
     @Autowired
     private CooperativePartnerService cooperativePartnerService;
 
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 跳转至合作商管理页面
+     * @Date 9:39 2018/3/16
+     */
     @RequestMapping("skipCooperation")
     public String tt() {
         return "cooperativePartner";
     }
 
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 合作商展示数据，包括列表，分页，条件查询，时间查询
+     * @Date 9:40 2018/3/16
+     */
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Map<String, Object> findById(
@@ -41,7 +51,11 @@ public class CooperativePartnerController {
         return map;
     }
 
-
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 合作商申请存入数据库
+     * @Date 9:41 2018/3/16
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Map<String, Object> add(@RequestBody CooperativePartner parameters) {
         cooperativePartnerService.insertCooperativePartner(parameters);
@@ -49,6 +63,11 @@ public class CooperativePartnerController {
         return null;
     }
 
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 添加备注
+     * @Date 9:41 2018/3/16
+     */
     @RequestMapping(value = "/saveRemark", method = RequestMethod.GET)
     public void saveRemark(CooperativePartner parameters) {
         cooperativePartnerService.saveRemark(parameters);
