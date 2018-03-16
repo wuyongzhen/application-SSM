@@ -46,3 +46,25 @@ CREATE TABLE `admin` (
   `role` tinyint(4) NOT NULL COMMENT '角色权限字段：1为查看合作商，2为查看合伙人',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/**
+* @Author By:Wu Yongzhen
+* @Description 合伙人建表SQL
+* @Date 14:48 2018/3/16
+*/
+
+DROP TABLE IF EXISTS `partner`;
+CREATE TABLE `partner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL COMMENT '合伙人姓名',
+  `age` tinyint(4) DEFAULT NULL COMMENT '合伙人年龄',
+  `phone` varchar(255) DEFAULT NULL COMMENT '合伙人手机号',
+  `native_place` varchar(255) DEFAULT NULL COMMENT '籍贯',
+  `mailbox` varchar(255) DEFAULT NULL COMMENT '电子邮箱',
+  `company_name` varchar(255) DEFAULT NULL COMMENT '单位名称',
+  `duty` varchar(255) DEFAULT NULL COMMENT '担任职务',
+  `site` varchar(255) DEFAULT NULL COMMENT '单位地址',
+  `create_time` datetime DEFAULT NULL COMMENT '合伙人申请时间',
+  `del` tinyint(4) DEFAULT '0' COMMENT '假删除：1为删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
