@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="cxt"/>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -55,13 +57,10 @@
 <script src="${cxt}/login/js/demo-1.js"></script>
 <script src="${cxt}/js/axios.min.js"></script>
 <%--MD5加密js--%>
-<script src="${cxt}/js/md5.js" type="text/javascript"></script>
+<script src="${cxt}js/md5.js" type="text/javascript"></script>
 <div style="text-align:center;">
 </div>
 </body>
-<script>
-
-</script>
 <script>
     new Vue({
         el: '#app',
@@ -91,10 +90,15 @@
                         password: hex_md5(password)
                     }
                 }).then(function (res) {
+                    console.log(res)
+                    if (res.data == "error") {
+                        alert('登录失败，请检查账号密码！');
+                        return false;
+                    }
                     alert('登录成功！');
-                    alert(res);
+                    window.location.href = ${cxt}res.data;
                 }).catch(function (error) {
-                    alert('数据加载失败，请刷新页面重试！');
+                    alert('登录失败，请检查账号密码！');
                 });
             }
         }

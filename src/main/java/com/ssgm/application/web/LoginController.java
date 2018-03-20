@@ -4,9 +4,12 @@ import com.ssgm.application.entity.User;
 import com.ssgm.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.Map;
@@ -42,16 +45,29 @@ public class LoginController {
      * @Date 14:09 2018/3/15
      */
     @RequestMapping("login")
-    public Map login(HttpSession response, User user) {
-        Cookie roleCookie = new Cookie("role", user.getRole().toString());//将角色信息添加入cookie中
-        Cookie nameCookie = new Cookie("name", user.getRole().toString());//将用户名添加入cookie中
-        roleCookie.setMaxAge(3600 * 24 * 3);//设置其生命周期
-        nameCookie.setMaxAge(3600 * 24 * 3);//设置其生命周期
-//        response.addCookie(roleCookie);
-//        response.addCookie(nameCookie);
-        if (isEmpty(this.userService.selectByPrimaryKey(user))){
-            return null;
+    @ResponseBody
+    public String login(HttpServletRequest Request, User user) {
+        User User = userService.selectByPrimaryKey(user);
+        if (!isEmpty(User)) {
+            Request.getSession().setAttribute("user", User);
+            String url = "";
+            //判断角色权限，返回响应的跳转页面
+            switch (User.getRole()) {
+                case 1:
+                    url = "/cooperation/skipCooperation";
+                    break;
+                case 2:
+                    url = "/partner/skipPartner";
+                    break;
+                case 3:
+                    url = "";
+                    break;
+                default:
+                    url = "/login/skipLoginPage";
+                    break;
+            }
+            return url;
         }
-        return null;
+        return "error";
     }
 }

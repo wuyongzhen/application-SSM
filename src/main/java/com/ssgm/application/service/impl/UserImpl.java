@@ -1,7 +1,10 @@
 package com.ssgm.application.service.impl;
 
+import com.ssgm.application.dao.PartnerMapper;
+import com.ssgm.application.dao.UserMapper;
 import com.ssgm.application.entity.User;
 import com.ssgm.application.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service("userService")
 public class UserImpl implements UserService {
+    @Autowired
+    private UserMapper userMapper;
+
     public User selectByPrimaryKey(User user) {
-        return null;
+        return this.userMapper.selectByParameters(user);
     }
 }

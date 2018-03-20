@@ -187,8 +187,6 @@
         el: '#app',
         data: {
             cooperation: [],
-            //多选数组
-            multipleSelection: [],
             //请求的URL
             url: '${cxt}/cooperation/list',
             //搜索条件
