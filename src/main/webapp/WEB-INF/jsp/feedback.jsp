@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="cxt"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,16 +20,9 @@
         .demo-table-expand {
             font-size: 0;
         }
-
         .demo-table-expand label {
             width: 120px;
             color: #99a9bf;
-        }
-
-        .demo-table-expand .el-form-item {
-            margin-right: 0;
-            margin-bottom: 0;
-            width: 50%;
         }
     </style>
 </head>
@@ -50,7 +41,7 @@
                     <el-row>
                         <el-col :span="11">
                             <div class="grid-content bg-purple-dark">
-                                <el-input placeholder="请输入手机号或负责人搜索" v-model="criteria" style="padding-bottom:10px;">
+                                <el-input placeholder="请输入类型" v-model="criteria" style="padding-bottom:10px;">
                                     <el-button slot="append" v-on:click="search">搜索</el-button>
                                 </el-input>
                             </div>
@@ -78,44 +69,8 @@
                                     <el-table-column type="expand">
                                         <template slot-scope="props">
                                             <el-form label-position="left" inline class="demo-table-expand">
-                                                <el-form-item label="成立时间">
-                                                    <span>{{ props.row.establishedTime }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="法人代表">
-                                                    <span>{{ props.row.legalPersonality }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="职务">
-                                                    <span>{{ props.row.duty }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="手机号">
-                                                    <span>{{ props.row.mobile }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="电子邮箱">
-                                                    <span>{{ props.row.email }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="主营业务">
-                                                    <span>{{ props.row.business }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="客户主体">
-                                                    <span>{{ props.row.clientSubject }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司核心优势">
-                                                    <span>{{ props.row.advantage }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="申请北京考察">
-                                                    <span>{{ props.row.inspect }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="意向产品项目">
-                                                    <span>{{ props.row.intention }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司地址">
-                                                    <span>{{ props.row.companyAddress }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司人数">
-                                                    <span>{{ props.row.companyScale }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司性质">
-                                                    <span>{{ props.row.nature }}</span>
+                                                <el-form-item label="反馈内容">
+                                                    <span>{{ props.row.content }}</span>
                                                 </el-form-item>
                                             </el-form>
                                         </template>
@@ -125,24 +80,24 @@
                                             :index="indexMethod">
                                     </el-table-column>
                                     <el-table-column
-                                            label="公司全称"
-                                            prop="companyName">
+                                            label="反馈人"
+                                            prop="name">
                                     </el-table-column>
                                     <el-table-column
-                                            label="注册资本"
-                                            prop="registeredCapital">
+                                            label="手机号"
+                                            prop="phone">
                                     </el-table-column>
                                     <el-table-column
-                                            label="公司年流水"
-                                            prop="companyWater">
+                                            label="QQ"
+                                            prop="qq">
                                     </el-table-column>
                                     <el-table-column
-                                            label="负责人"
-                                            prop="principal">
+                                            label="反馈类型"
+                                            prop="type">
                                     </el-table-column>
                                     <el-table-column
                                             width="180"
-                                            label="申请时间"
+                                            label="反馈时间"
                                             prop="creationTime">
                                     </el-table-column>
                                     <el-table-column label="操作">
@@ -188,7 +143,7 @@
         data: {
             cooperation: [],
             //请求的URL
-            url: '${cxt}/cooperation/list',
+            url: '${cxt}/customerFeedback/list',
             //搜索条件
             criteria: '',
             //根据时间搜索条件
@@ -222,11 +177,7 @@
                         return;
                     }
                     var data = res.data;
-                    var project = ['网路宝（盛世云+无线WI-FI监管）项目', '网路神警上网行为审计项目（大型场所）', '特征码采集（卡扣）项目', '食品安全快检技术项目']
                     for (var i = 0; i < res.data.pageData.length; i++) {
-                        data.pageData[i].intention = project[data.pageData[i].intention - 1];
-                        data.pageData[i].inspect = data.pageData[i].inspect == 0 ? '否' : '是';
-                        data.pageData[i].establishedTime = moment(data.pageData[i].establishedTime).format('YYYY-MM-DD');//moment.js 格式化时间戳
                         data.pageData[i].creationTime = moment(data.pageData[i].creationTime).format('YYYY-MM-DD HH:mm:ss');//moment.js 格式化时间戳
                     }
                     _this.cooperation = data.pageData;
@@ -268,9 +219,7 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(({value}) => {
-                    console.log(row+"---"+index+"----"+value)
                     this.save_remark(row,value);
-
                     this.$message({
                         type: 'success',
                         message: '备注信息保存成功！'
@@ -284,7 +233,7 @@
 
             },
             save_remark(row,value) {
-                axios.get('${cxt}/cooperation/saveRemark', {
+                axios.get('${cxt}/customerFeedback/saveRemark', {
                     params: {
                         id:row,
                         remark:value

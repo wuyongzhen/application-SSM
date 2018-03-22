@@ -3,8 +3,6 @@ package com.ssgm.application.service;
 import com.github.pagehelper.Page;
 import com.ssgm.application.entity.Partner;
 
-import java.util.List;
-
 /**
  * @Author By: Wu Yongzhen
  * @Description 合伙人interface

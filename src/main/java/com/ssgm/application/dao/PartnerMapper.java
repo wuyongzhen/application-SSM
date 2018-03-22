@@ -1,14 +1,9 @@
 package com.ssgm.application.dao;
 
 import com.github.pagehelper.Page;
-import com.ssgm.application.entity.CooperativePartner;
+import com.ssgm.application.entity.CustomerFeedback;
 import com.ssgm.application.entity.Partner;
 
-/**
- * @Author By:Wu Yongzhen
- * @Description 合伙人CRUD
- * @Date 10:30 2018/3/16
- */
 public interface PartnerMapper {
     /**
      * @Author By:Wu Yongzhen

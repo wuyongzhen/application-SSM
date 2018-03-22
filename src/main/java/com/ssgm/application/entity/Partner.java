@@ -21,6 +21,8 @@ public class Partner {
 
     private String site;
 
+    private String remark;
+
     private Date createTime;
 
     private Byte del;
@@ -95,6 +97,14 @@ public class Partner {
 
     public void setSite(String site) {
         this.site = site == null ? null : site.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {

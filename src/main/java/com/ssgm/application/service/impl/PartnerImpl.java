@@ -23,10 +23,6 @@ public class PartnerImpl implements PartnerService {
     @Autowired
     private PartnerMapper PartnerMapper;
 
-    public Partner getById(Integer id) {
-        return this.PartnerMapper.selectByPrimaryKey(id);
-    }
-
     public Page<Partner> findList(String parameter, int pageNum, int pageSize) {
         Page<Partner> page = PageHelper.startPage(pageNum, pageSize);
         this.PartnerMapper.findList(parameter);

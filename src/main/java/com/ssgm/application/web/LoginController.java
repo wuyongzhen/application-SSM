@@ -41,7 +41,7 @@ public class LoginController {
 
     /**
      * @Author By:Wu Yongzhen
-     * @Description 登录管理平台，存入cookie
+     * @Description 登录管理平台，存入session
      * @Date 14:09 2018/3/15
      */
     @RequestMapping("login")
@@ -50,20 +50,20 @@ public class LoginController {
         User User = userService.selectByPrimaryKey(user);
         if (!isEmpty(User)) {
             Request.getSession().setAttribute("user", User);
-            String url = "";
+            String url;
             //判断角色权限，返回响应的跳转页面
             switch (User.getRole()) {
                 case 1:
-                    url = "/cooperation/skipCooperation";
+                    url = "/cooperation/skipCooperation";//合作商管理员跳转
                     break;
                 case 2:
-                    url = "/partner/skipPartner";
+                    url = "/partner/skipPartner";//合伙人管理员跳转
                     break;
                 case 3:
-                    url = "";
+                    url = "/customerFeedback/skipFeedback";//反馈系统管理员跳转
                     break;
                 default:
-                    url = "/login/skipLoginPage";
+                    url = "/login/skipLoginPage";//非正常权限
                     break;
             }
             return url;

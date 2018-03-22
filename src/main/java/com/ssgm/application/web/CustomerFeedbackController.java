@@ -1,50 +1,50 @@
 package com.ssgm.application.web;
 
 import com.github.pagehelper.Page;
-import com.ssgm.application.entity.CooperativePartner;
-import com.ssgm.application.service.CooperativePartnerService;
+import com.ssgm.application.entity.CustomerFeedback;
+import com.ssgm.application.service.CustomerFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @Author By: Wu Yongzhen
- * @Description 合作商申请Controller
- * @Data 14:09 2018/3/12
+ * @Description 反馈建议管理
+ * @Data 9:24 2018/3/21
  * @Modified By:
  **/
+@RequestMapping("customerFeedback")
 @Controller
-@RequestMapping("/cooperation")
-public class CooperativePartnerController {
+public class CustomerFeedbackController {
     @Autowired
-    private CooperativePartnerService cooperativePartnerService;
+    private CustomerFeedbackService customerFeedbackService;
 
     /**
      * @Author By:Wu Yongzhen
-     * @Description 跳转至合作商管理页面
-     * @Date 9:39 2018/3/16
+     * @Description 跳转至反馈建议管理页面
+     * @Date 11:47 2018/3/16
      */
-    @RequestMapping("skipCooperation")
-    public String skipCooperation() {
-        return "cooperativePartner";
+    @RequestMapping("skipFeedback")
+    public String skipPartner() {
+        return "feedback";
     }
 
     /**
      * @Author By:Wu Yongzhen
-     * @Description 合作商展示数据，包括列表，分页，条件查询，时间查询
-     * @Date 9:40 2018/3/16
+     * @Description 反馈建议展示数据，包括列表，分页，条件查询，时间查询
+     * @Date 11:47 2018/3/16
      */
+
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Map<String, Object> findList(
             @RequestParam(value = "parameter", defaultValue = "") String parameter,
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<CooperativePartner> page = cooperativePartnerService.findList(parameter, pageNum, pageSize);
+        Page<CustomerFeedback> page = customerFeedbackService.findList(parameter, pageNum, pageSize);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageData", page);
         map.put("number", page.getTotal());
@@ -53,23 +53,25 @@ public class CooperativePartnerController {
 
     /**
      * @Author By:Wu Yongzhen
-     * @Description 合作商申请存入数据库
-     * @Date 9:41 2018/3/16
+     * @Description 反馈建议申请存入数据库
+     * @Date 11:47 2018/3/16
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Map<String, Object> add(@RequestBody CooperativePartner parameters) {
-        cooperativePartnerService.insertCooperativePartner(parameters);
-        System.out.println(parameters);
-        return null;
+    public Map<String, Object> add(@RequestBody CustomerFeedback parameters) {
+        int i = customerFeedbackService.insertCustomerFeedback(parameters);
+        Map map = new HashMap();
+        map.put("status", i);
+        return map;
     }
 
     /**
      * @Author By:Wu Yongzhen
      * @Description 添加备注
-     * @Date 9:41 2018/3/16
+     * @Date 11:47 2018/3/16
      */
     @RequestMapping(value = "/saveRemark", method = RequestMethod.GET)
-    public void saveRemark(CooperativePartner parameters) {
-        cooperativePartnerService.saveRemark(parameters);
+    public void saveRemark(CustomerFeedback parameters) {
+        customerFeedbackService.saveRemark(parameters);
     }
+
 }

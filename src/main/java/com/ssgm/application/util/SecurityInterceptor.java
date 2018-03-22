@@ -26,16 +26,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-
-          /*
-        解决vue 前后台跨域问题
-         */
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.setHeader("Access-Control-Allow-Credentials", "true"); //是否允许浏览器携带用户身份信息（cookie）
-
         String contextPath = request.getContextPath();
         String url = request.getServletPath().toString();
         HttpSession session = request.getSession();
@@ -46,20 +36,20 @@ public class SecurityInterceptor implements HandlerInterceptor {
             request.setAttribute("msg", "登录超时，请重新登录！");
             return false;
         }
-        boolean role=true;
-        switch (user.getRole()) {
-            case 1:
-                Object concat = url.concat("cooperation");
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-        }
-//        String result = url.substring().substring(strStart.length());
-
+//        boolean role=true;
+//        switch (user.getRole()) {
+//            case 1:
+//                Object concat = url.concat("cooperation");
+//                break;
+//            case 2:
+//                break;
+//            case 3:
+//                break;
+//            case 4:
+//                break;
+//        }
+////        String result = url.substring().substring(strStart.length());
+//
 
         return true;
     }

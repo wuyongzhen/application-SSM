@@ -1,6 +1,5 @@
 package com.ssgm.application.service.impl;
 
-import com.ssgm.application.dao.PartnerMapper;
 import com.ssgm.application.dao.UserMapper;
 import com.ssgm.application.entity.User;
 import com.ssgm.application.service.UserService;

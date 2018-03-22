@@ -30,10 +30,6 @@ public class CooperativePartnerImpl implements CooperativePartnerService {
     @Autowired
     private CooperativePartnerMapper cooperativePartnerMapper;
 
-    public CooperativePartner getById(Integer id) {
-        return this.cooperativePartnerMapper.selectByPrimaryKey(id);
-    }
-
     public Page<CooperativePartner> findList(String parameter, int pageNum, int pageSize) {
         Page<CooperativePartner> page = PageHelper.startPage(pageNum, pageSize);
         this.cooperativePartnerMapper.findList(parameter);

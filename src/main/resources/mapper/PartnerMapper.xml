@@ -11,14 +11,15 @@
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     <result column="duty" jdbcType="VARCHAR" property="duty" />
     <result column="site" jdbcType="VARCHAR" property="site" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="del" jdbcType="TINYINT" property="del" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, age, phone, native_place, mailbox, company_name, duty, site, create_time, 
+    id, name, age, phone, native_place, mailbox, company_name, duty, site, remark, create_time, 
     del
   </sql>
-  <!--查询合伙人列表-->
+  <!--查询反馈列表-->
   <select id="findList" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
@@ -41,11 +42,13 @@
     insert into partner (id, name, age, 
       phone, native_place, mailbox, 
       company_name, duty, site, 
-      create_time, del)
+      remark, create_time, del
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, 
       #{phone,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{del,jdbcType=TINYINT})
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{del,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ssgm.application.entity.Partner">
     insert into partner
@@ -76,6 +79,9 @@
       </if>
       <if test="site != null">
         site,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       <if test="createTime != null">
         create_time,
@@ -112,6 +118,9 @@
       <if test="site != null">
         #{site,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -147,6 +156,9 @@
       <if test="site != null">
         site = #{site,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -166,6 +178,7 @@
       company_name = #{companyName,jdbcType=VARCHAR},
       duty = #{duty,jdbcType=VARCHAR},
       site = #{site,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del = #{del,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}

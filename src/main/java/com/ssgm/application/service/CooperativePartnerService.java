@@ -12,9 +12,6 @@ import java.util.List;
  * @Date 2018-3-11 20:00
  */
 public interface CooperativePartnerService {
-    //根据id查找
-    CooperativePartner getById(Integer id);
-
     /**
      * @Author By:Wu Yongzhen
      * @Description 查询合作商列表

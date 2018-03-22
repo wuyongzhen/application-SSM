@@ -68,3 +68,22 @@ CREATE TABLE `partner` (
   `del` tinyint(4) DEFAULT '0' COMMENT '假删除：1为删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
+/**
+* @Author By:Wu Yongzhen
+* @Description 客户反馈系统建表SQL
+* @Date 9:22 2018/3/21
+*/
+
+DROP TABLE IF EXISTS `customer_feedback`;
+CREATE TABLE `customer_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL COMMENT '反馈人',
+  `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
+  `qq` varchar(255) DEFAULT NULL COMMENT 'QQ',
+  `content` varchar(255) DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL COMMENT '1:对产品的意见和建议，2:对服务的意见和建议,3:对官网的意见和建议，4:其他',
+  `creation_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

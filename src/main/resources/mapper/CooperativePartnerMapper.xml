@@ -43,7 +43,7 @@
         where mobile like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
         or principal like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
         or creation_time like CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
-  </select>
+    </select>
     <select id="conditionQuery" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
