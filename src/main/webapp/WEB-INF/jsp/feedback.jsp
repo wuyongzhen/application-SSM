@@ -20,6 +20,7 @@
         .demo-table-expand {
             font-size: 0;
         }
+
         .demo-table-expand label {
             width: 120px;
             color: #99a9bf;
@@ -29,22 +30,26 @@
 <body>
 <div id="app">
     <el-row>
-        <el-col :span="6">
+        <el-col :span="4">
             <div class="grid-content bg-purple-dark">
                 <button></button>
             </div>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="20">
             <div class="grid-content bg-purple-dark">
                 <template>
                     <!--查询头-->
                     <el-row>
+
                         <el-col :span="11">
-                            <div class="grid-content bg-purple-dark">
-                                <el-input placeholder="请输入类型" v-model="criteria" style="padding-bottom:10px;">
-                                    <el-button slot="append" v-on:click="search">搜索</el-button>
-                                </el-input>
-                            </div>
+                            <el-select v-model="value" placeholder="请选择反馈类型"  @change="search_type(value)">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-col>
                         <el-col :span="2">
                             <div class="grid-content bg-purple-dark">&nbsp;</div>
@@ -141,6 +146,20 @@
     new Vue({
         el: '#app',
         data: {
+            options: [{
+                value: 71,
+                label: '对产品的意见和建议'
+            }, {
+                value: 72,
+                label: '对服务的意见和建议'
+            }, {
+                value:73,
+                label: '对管网的意见和建议'
+            }, {
+                value: 74,
+                label: '其他'
+            }],
+            value: '',
             cooperation: [],
             //请求的URL
             url: '${cxt}/customerFeedback/list',
@@ -177,8 +196,10 @@
                         return;
                     }
                     var data = res.data;
+                    var project = ['对产品的意见和建议', '对服务的意见和建议', '对管网的意见和建议', '其他']
                     for (var i = 0; i < res.data.pageData.length; i++) {
                         data.pageData[i].creationTime = moment(data.pageData[i].creationTime).format('YYYY-MM-DD HH:mm:ss');//moment.js 格式化时间戳
+                        data.pageData[i].type = project[data.pageData[i].type - 71];
                     }
                     _this.cooperation = data.pageData;
                     _this.totalCount = data.number;
@@ -203,9 +224,14 @@
             },
             //根据时间搜索
             search_time: function () {
-                console.log(this.date + "11111")
                 this.loadData(this.date, this.currentPage, this.pagesize);
                 this.date = ''
+            },
+            //根据反馈类型搜索
+            search_type: function () {
+                console.log(this.value + "11111")
+                this.loadData(this.value, this.currentPage, this.pagesize);
+                this.value = ''
             },
             //序号
             indexMethod(index) {
@@ -219,7 +245,7 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(({value}) => {
-                    this.save_remark(row,value);
+                    this.save_remark(row, value);
                     this.$message({
                         type: 'success',
                         message: '备注信息保存成功！'
@@ -232,11 +258,11 @@
                 });
 
             },
-            save_remark(row,value) {
+            save_remark(row, value) {
                 axios.get('${cxt}/customerFeedback/saveRemark', {
                     params: {
-                        id:row,
-                        remark:value
+                        id: row,
+                        remark: value
                     }
                 });
             }
