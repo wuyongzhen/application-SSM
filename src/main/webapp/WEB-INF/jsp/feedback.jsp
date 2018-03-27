@@ -29,6 +29,30 @@
 </head>
 <body>
 <div id="app">
+    <el-menu
+            :default-active="activeIndex2"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b">
+        <el-menu-item index="1">处理中心</el-menu-item>
+        <el-submenu index="2">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+            <el-submenu index="2-4">
+                <template slot="title">选项4</template>
+                <el-menu-item index="2-4-1">选项1</el-menu-item>
+                <el-menu-item index="2-4-2">选项2</el-menu-item>
+                <el-menu-item index="2-4-3">选项3</el-menu-item>
+            </el-submenu>
+        </el-submenu>
+        <el-menu-item index="3" disabled>消息中心</el-menu-item>
+        <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+    </el-menu>
     <el-row>
         <el-col :span="4">
             <div class="grid-content bg-purple-dark">
@@ -42,7 +66,7 @@
                     <el-row>
 
                         <el-col :span="11">
-                            <el-select v-model="value" placeholder="请选择反馈类型"  @change="search_type(value)">
+                            <el-select v-model="value" placeholder="请选择反馈类型" @change="search_type(value)">
                                 <el-option
                                         v-for="item in options"
                                         :key="item.value"
@@ -141,11 +165,13 @@
         </el-col>
     </el-row>
 </div>
+
 </body>
 <script>
     new Vue({
         el: '#app',
         data: {
+            activeIndex2: '1',
             options: [{
                 value: 71,
                 label: '对产品的意见和建议'
@@ -153,7 +179,7 @@
                 value: 72,
                 label: '对服务的意见和建议'
             }, {
-                value:73,
+                value: 73,
                 label: '对管网的意见和建议'
             }, {
                 value: 74,
@@ -265,6 +291,9 @@
                         remark: value
                     }
                 });
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
             }
         },
         //载入数据
