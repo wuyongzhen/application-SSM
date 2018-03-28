@@ -1,6 +1,6 @@
 /**
  * @Author By: Wu Yongzhen
- * @Description
+ * @Description 文件上传下载
  * @Data 17:21 2018/3/27
  * @Modified By:
  **/
@@ -13,14 +13,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.pagehelper.Page;
+import com.ssgm.application.entity.Announcement;
+import com.ssgm.application.service.AnnouncementService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -29,26 +34,68 @@ import org.springframework.web.multipart.MultipartFile;
  * @author 武永振
  */
 @Controller
-@RequestMapping("file")
+@RequestMapping("announcement")
 public class UploadController {
+    @Autowired
+    private AnnouncementService announcementService;
 
     @RequestMapping("skipUploadPage")
     public String skipUploadPage() {
-        return "shang";
+        return "upload";
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping("skipAnnouncementPage")
+    public String skipAnnouncementPage() {
+        return "announcement";
+    }
+
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 查询公告列表
+     * @Date 17:14 2018/3/28
+     */
     @ResponseBody
-    public String upload(MultipartFile file, HttpServletRequest request) throws IOException {
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Map<String, Object> findList(
+            @RequestParam(value = "parameter", defaultValue = "") String parameter,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        Page<Announcement> page = announcementService.findList(parameter, pageNum, pageSize);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("pageData", page);
+        map.put("number", page.getTotal());
+        return map;
+    }
+
+    /**
+     * @Author By:Wu Yongzhen
+     * @Description 添加公告
+     * @Date 11:28 2018/3/28
+     */
+    @RequestMapping(value = "/addAnnouncement", method = RequestMethod.POST)
+    @ResponseBody
+    public Map addAnnouncement(
+            MultipartFile file,
+            HttpServletRequest request,
+            @RequestBody Announcement Announcement) throws IOException {
         String path = request.getSession().getServletContext().getRealPath("upload");
         String fileName = file.getOriginalFilename();
         File dir = new File(path, fileName);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-
         file.transferTo(dir);
-        return fileName;
+        Announcement.setFileName(fileName);
+        Announcement.setFileSize(file.getSize());
+        Announcement.setUploadTime(new Date());
+        int i = announcementService.insertAnnouncement(Announcement);
+        Map map = new HashMap();
+        map.put("msg", "上传成功！");
+        map.put("code", "200");
+        if (i == 0) {
+            map.put("msg", "公告上传失败！");
+        }
+        return map;
     }
 
     @RequestMapping("/down")

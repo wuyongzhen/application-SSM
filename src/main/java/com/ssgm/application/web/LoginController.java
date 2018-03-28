@@ -62,6 +62,9 @@ public class LoginController {
                 case 3:
                     url = "/customerFeedback/skipFeedback";//反馈系统管理员跳转
                     break;
+                case 4:
+                    url = "/announcement/skipAnnouncementPage";//公告系统管理员跳转
+                    break;
                 default:
                     url = "/login/skipLoginPage";//非正常权限
                     break;
