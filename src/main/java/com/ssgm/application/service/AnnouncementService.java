@@ -29,5 +29,5 @@ public interface AnnouncementService {
      * @Description 删除公告
      * @Date 11:17 2018/3/28
      */
-    int delAnnouncement(int id);
+    int delAnnouncement(Announcement announcement);
 }

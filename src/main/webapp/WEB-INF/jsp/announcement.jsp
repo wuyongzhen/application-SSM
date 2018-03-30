@@ -9,6 +9,7 @@
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${pageContext.request.contextPath }" var="cxt"/>
+<c:set value="${request.getServerName()}" var="xxx"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,22 +44,29 @@
                 <template>
                     <!--查询头-->
                     <el-row>
-                        <el-col :span="11">
+                        <el-col :span="8">
                             <div class="grid-content bg-purple-dark">
                                 <el-input placeholder="请输入文件名或公告内容" v-model="criteria" style="padding-bottom:10px;">
                                     <el-button slot="append" v-on:click="search">搜索</el-button>
                                 </el-input>
                             </div>
                         </el-col>
-                        <el-col :span="2">
-                            <div class="grid-content bg-purple-dark">&nbsp;</div>
-                        </el-col>
-                        <el-col :span="11">
+                        <el-col :span="8">
                             <div class="grid-content bg-purple-dark">
                                 <el-input id="timing" placeholder="根据时间搜索" v-model="date"
                                           style="padding-bottom:10px;">
                                     <el-button slot="append" v-on:click="search_time">搜索</el-button>
                                 </el-input>
+                            </div>
+                        </el-col>
+                        <el-col :span="8">
+                            <div class="grid-content bg-purple-dark">
+                                <el-button
+                                        type="primary"
+                                        style="padding-bottom:10px;margin-left: 50px"
+                                        @click="window.location.href='skipUploadPage'">点击跳转上传文件<i
+                                        class="el-icon-upload el-icon--right"></i>
+                                </el-button>
                             </div>
                         </el-col>
                     </el-row>
@@ -69,22 +77,22 @@
                                 <template>
                                     <el-table
                                             :data="partner"
+                                            border
                                             stripe
                                             style="width: 100%">
                                         <el-table-column
                                                 type="index"
                                                 :index="indexMethod"
-                                                width="180">
+                                        >
                                         </el-table-column>
                                         <el-table-column
                                                 prop="fileName"
                                                 label="文件名"
-                                                width="180">
+                                        >
                                         </el-table-column>
                                         <el-table-column
                                                 prop="content"
-                                                label="标题"
-                                                width="180">
+                                                label="标题">
                                         </el-table-column>
                                         <el-table-column
                                                 prop="uploadTime"
@@ -103,7 +111,15 @@
                                                 <el-button
                                                         size="mini"
                                                         type="success"
-                                                        @click="remark(scope.row.id,scope.row.remark)">备注
+                                                        @click="window.location.href=${cxt}scope.row.fileName"
+                                                        icon="el-icon-search">预览附件
+                                                </el-button>
+                                                <el-button
+                                                        size="mini"
+                                                        type="danger"
+                                                        @click="delAnnouncement(scope.row.id)"
+                                                        icon="el-icon-delete">
+                                                    删除
                                                 </el-button>
                                             </template>
                                         </el-table-column>
@@ -178,7 +194,8 @@
                     var data = res.data;
                     for (var i = 0; i < res.data.pageData.length; i++) {
                         data.pageData[i].uploadTime = moment(data.pageData[i].uploadTime).format('YYYY-MM-DD');//moment.js 格式化时间戳
-                        data.pageData[i].neeqTime = moment(data.pageData[i].neeqTime).format('YYYY-MM-DD');//moment.js 格式化时间戳
+                        data.pageData[i].fileSize = bytesToSize(data.pageData[i].fileSize);//moment.js 格式化时间戳
+                        data.pageData[i].neeqTime = moment(data.pageData[i].neeqTime).format('YYYY-MM-DD');//moment.js 格式化时间戳bytesToSize
                     }
                     _this.partner = data.pageData;
                     _this.totalCount = data.number;
@@ -210,32 +227,31 @@
             indexMethod(index) {
                 return index + 1;
             },
-            //点击备注弹框
-            remark(row, index) {
-                this.$prompt('请输入备注信息', '提示', {
-                    inputValue: index,
+            delAnnouncement(row) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(({value}) => {
-                    this.save_remark(row, value);
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.del_announcement(row);
+                    this.loadData(this.criteria, this.currentPage, this.pagesize);
                     this.$message({
                         type: 'success',
-                        message: '备注信息保存成功！'
+                        message: '删除成功!'
                     });
-                    this.loadData(this.criteria, this.currentPage, this.pagesize);
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: '取消输入'
+                        message: '已取消删除'
                     });
                 });
-
             },
-            save_remark(row, value) {
-                axios.get('${cxt}/partner/saveRemark', {
+            del_announcement(row) {
+                axios.get('${cxt}/announcement/delAnnouncement', {
                     params: {
                         id: row,
-                        remark: value
+                        del: 1//将数据库中del字段改为1 （删除状态）
                     }
                 });
             }
@@ -257,6 +273,20 @@
             })
         }
     });
+
+    function bytesToSize(bytes) {
+        if (bytes === 0) return '0 B';
+
+        var k = 1024;
+
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return (bytes / Math.pow(k, i)).toPrecision(4) + ' ' + sizes[i];
+        //toPrecision(3) 后面保留一位小数，如1.0GB
+        //return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+    }
 </script>
 <script>
 

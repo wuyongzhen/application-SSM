@@ -48,6 +48,7 @@
             <mvc:exclude-mapping path="/**/*.gif"/>
             <mvc:exclude-mapping path="/**/*.jpg"/>
             <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/**/*.PDF"/>
             <bean class="com.ssgm.application.util.SecurityInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

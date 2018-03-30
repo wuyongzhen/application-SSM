@@ -31,11 +31,12 @@ public class AnnouncementImpl implements AnnouncementService {
 
     @Override
     public int insertAnnouncement(Announcement Announcement) {
-        return 0;
+        return announcementMapper.insert(Announcement);
     }
 
+
     @Override
-    public int delAnnouncement(int id) {
-        return 0;
+    public int delAnnouncement(Announcement announcement) {
+        return announcementMapper.updateByPrimaryKeySelective(announcement);
     }
 }

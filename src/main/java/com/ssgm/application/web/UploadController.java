@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.pagehelper.Page;
 import com.ssgm.application.entity.Announcement;
+import com.ssgm.application.entity.CustomerFeedback;
 import com.ssgm.application.service.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,12 +74,11 @@ public class UploadController {
      * @Date 11:28 2018/3/28
      */
     @RequestMapping(value = "/addAnnouncement", method = RequestMethod.POST)
-    @ResponseBody
     public Map addAnnouncement(
             MultipartFile file,
             HttpServletRequest request,
-            @RequestBody Announcement Announcement) throws IOException {
-        String path = request.getSession().getServletContext().getRealPath("upload");
+            Announcement Announcement) throws IOException {
+        String path = request.getSession().getServletContext().getRealPath("UI/announcement");
         String fileName = file.getOriginalFilename();
         File dir = new File(path, fileName);
         if (!dir.exists()) {
@@ -96,6 +96,11 @@ public class UploadController {
             map.put("msg", "公告上传失败！");
         }
         return map;
+    }
+
+    @RequestMapping(value = "/delAnnouncement", method = RequestMethod.GET)
+    public int delAnnouncement(Announcement announcement) {
+        return announcementService.delAnnouncement(announcement);
     }
 
     @RequestMapping("/down")
