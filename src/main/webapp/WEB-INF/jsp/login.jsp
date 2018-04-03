@@ -57,11 +57,12 @@
 <script src="${cxt}/login/js/demo-1.js"></script>
 <script src="${cxt}/js/axios.min.js"></script>
 <%--MD5加密js--%>
-<script src="${cxt}js/md5.js" type="text/javascript"></script>
+<script src="${cxt}/js/md5.js" type="text/javascript"></script>
 <div style="text-align:center;">
 </div>
 </body>
 <script>
+    console.log(hex_md5);
     new Vue({
         el: '#app',
         data: {

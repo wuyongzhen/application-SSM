@@ -25,6 +25,7 @@ import com.ssgm.application.entity.Announcement;
 import com.ssgm.application.entity.CustomerFeedback;
 import com.ssgm.application.service.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,10 +75,15 @@ public class UploadController {
      * @Date 11:28 2018/3/28
      */
     @RequestMapping(value = "/addAnnouncement", method = RequestMethod.POST)
-    public Map addAnnouncement(
-            MultipartFile file,
-            HttpServletRequest request,
-            Announcement Announcement) throws IOException {
+    @ResponseBody
+    public int addAnnouncement(@RequestBody Announcement Announcement) throws IOException {
+        Announcement.setUploadTime(new Date());
+        int i = announcementService.insertAnnouncement(Announcement);
+        return i;
+    }
+
+    @RequestMapping("upload")
+    public boolean upload(HttpServletRequest request, MultipartFile file) throws IOException {
         String path = request.getSession().getServletContext().getRealPath("UI/announcement");
         String fileName = file.getOriginalFilename();
         File dir = new File(path, fileName);
@@ -85,17 +91,7 @@ public class UploadController {
             dir.mkdirs();
         }
         file.transferTo(dir);
-        Announcement.setFileName(fileName);
-        Announcement.setFileSize(file.getSize());
-        Announcement.setUploadTime(new Date());
-        int i = announcementService.insertAnnouncement(Announcement);
-        Map map = new HashMap();
-        map.put("msg", "上传成功！");
-        map.put("code", "200");
-        if (i == 0) {
-            map.put("msg", "公告上传失败！");
-        }
-        return map;
+        return true;
     }
 
     @RequestMapping(value = "/delAnnouncement", method = RequestMethod.GET)

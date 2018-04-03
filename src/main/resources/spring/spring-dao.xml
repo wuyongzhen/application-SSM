@@ -60,4 +60,6 @@
 		<!-- 给出需要扫描Dao接口包 -->
 		<property name="basePackage" value="com.ssgm.application.dao" />
 	</bean>
+
+	<context:component-scan base-package="com.ssgm.application.entity" />
 </beans>

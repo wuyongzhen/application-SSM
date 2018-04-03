@@ -33,34 +33,59 @@
 </head>
 <body>
 <div id="app">
-    <div>
-        <el-input placeholder="请输入内容" v-model="input3">
-            <template slot="prepend">标题</template>
-        </el-input>
-        <el-input placeholder="请输入内容" v-model="input4" id="timing">
-            <template slot="prepend">新三板时间</template>
-        </el-input>
-    </div>
     <el-upload
             multiple="false"
             class="upload-demo"
             ref="upload"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :auto-upload="false">
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            action="${cxt}/announcement/upload"
+            :auto-upload="false"
+            :on-change="handleChange"
+            show-file-list="false">
+        <el-button slot="trigger" size="small" type="primary" v-model="file">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
     </el-upload>
+    <div>
+        <el-input placeholder="请输入内容" v-model="content">
+            <template slot="prepend">标题</template>
+        </el-input>
+        <el-input id="timing" placeholder="请输入内容" v-model="neeqTime">
+            <template slot="prepend">新三板时间</template>
+        </el-input>
+        <el-button slot="append" v-on:click="submitParticulars">提交</el-button>
+    </div>
 </div>
 </body>
 <script>
     new Vue({
         el: '#app',
         data: {
-            input3: ''
+            file: '',
+            fileName: '',
+            fileSize: '',
+            content: '',
+            neeqTime: ''
         },
         methods: {
-            submitUpload() {
+            handleChange(file) {
+                this.fileName = file.name;
+                this.fileSize = file.size;
+            },
+            submitUpload(file) {
+                console.log(this.input2 + "12121212");
                 this.$refs.upload.submit();
+            },
+            submitParticulars() {
+                axios.post('${cxt}/announcement/addAnnouncement', {
+                    fileName: this.fileName,
+                    fileSize: this.fileSize,
+                    content: this.content,
+                    neeqTime: this.neeqTime,
+                    del: 0
+                }).then(function (res) {
+                window.location.href='${cxt}/announcement/skipAnnouncementPage';
+                }).catch(function (error) {
+                    alert('提交失败，请刷新页面重试！');
+                });
             }
         }, mounted: function () {
             // laydate时间控件
@@ -70,13 +95,10 @@
                 theme: 'grid',
                 done: function (value) {
                     console.log(value); //得到日期生成的值，如：2017-08-18
-                    _this.date = value;
+                    _this.neeqTime = value;
                 }
             })
         }
     });
-</script>
-<script>
-
 </script>
 </html>

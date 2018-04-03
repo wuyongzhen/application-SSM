@@ -36,7 +36,7 @@
     <el-row>
         <el-col :span="6">
             <div class="grid-content bg-purple-dark">
-                <button></button>
+                <button>退出</button>
             </div>
         </el-col>
         <el-col :span="18">

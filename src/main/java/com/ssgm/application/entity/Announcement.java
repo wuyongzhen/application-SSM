@@ -1,5 +1,8 @@
 package com.ssgm.application.entity;
 
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Announcement {
@@ -10,7 +13,7 @@ public class Announcement {
     private String content;
 
     private Date uploadTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date neeqTime;
 
     private Long fileSize;
