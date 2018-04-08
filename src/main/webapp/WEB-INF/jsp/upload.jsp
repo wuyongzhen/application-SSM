@@ -29,30 +29,46 @@
             width: 120px;
             color: #99a9bf;
         }
+
+        body{
+            margin: 0;
+        }
+        
+        .box{
+            margin-top:70px;
+            padding:40px;
+            background-color: #f7f7f7;
+            box-shadow: 5px 10px 15px #d8dce5;
+            /*border: 2px solid #d8dce5;*/
+        }
     </style>
 </head>
 <body>
-<div id="app">
-    <el-upload
-            multiple="false"
-            class="upload-demo"
-            ref="upload"
-            action="${cxt}/announcement/upload"
-            :auto-upload="false"
-            :on-change="handleChange"
-            show-file-list="false">
-        <el-button slot="trigger" size="small" type="primary" v-model="file">选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-    </el-upload>
-    <div>
-        <el-input placeholder="请输入内容" v-model="content">
-            <template slot="prepend">标题</template>
-        </el-input>
-        <el-input id="timing" placeholder="请输入内容" v-model="neeqTime">
-            <template slot="prepend">新三板时间</template>
-        </el-input>
-        <el-button slot="append" v-on:click="submitParticulars">提交</el-button>
-    </div>
+<div id="app" style="padding-bottom:70px;">
+    <el-col :span="20" :offset="2" class="box">
+        <el-upload
+                style="margin-top:40px"
+                multiple="false"
+                class="upload-demo"
+                ref="upload"
+                action="${cxt}/announcement/upload"
+                :auto-upload="false"
+                :on-change="handleChange"
+                show-file-list="false">
+            <el-button slot="trigger" size="small" type="primary" v-model="file">选取文件</el-button>
+            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        </el-upload>
+        <div>
+            <el-input placeholder="请输入内容" v-model="content" style="margin-top:40px">
+                <template slot="prepend">标题</template>
+            </el-input>
+            <el-input id="timing" placeholder="请输入内容" v-model="neeqTime" style="margin-top:40px">
+                <template slot="prepend">新三板时间</template>
+            </el-input>
+            <el-button type="success" slot="append" v-on:click="submitParticulars" style="margin-top:40px">提交</el-button>
+        </div>
+    </el-col>
+    <p style="clear:both;"></p>
 </div>
 </body>
 <script>

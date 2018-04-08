@@ -36,21 +36,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
             request.setAttribute("msg", "登录超时，请重新登录！");
             return false;
         }
-//        boolean role=true;
-//        switch (user.getRole()) {
-//            case 1:
-//                Object concat = url.concat("cooperation");
-//                break;
-//            case 2:
-//                break;
-//            case 3:
-//                break;
-//            case 4:
-//                break;
-//        }
-////        String result = url.substring().substring(strStart.length());
-//
-
         return true;
     }
 

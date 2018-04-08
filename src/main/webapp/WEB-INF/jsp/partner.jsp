@@ -38,17 +38,54 @@
             margin-bottom: 0;
             width: 50%;
         }
+
+        .left{
+            position: fixed;
+            top:100px;
+            bottom: 0;
+            background-color: #324157;
+        }
+
+        body{
+            margin:0;
+        }
+
+        .header{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000000;
+            background-color: #242f42;
+            padding: 0 30px;
+            height: 100px;
+        }
+
+        .header>p{
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 100px;
+            font-family: cursive;
+            color: #fff;
+            float: left;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 <div id="app">
+    <div class="header">
+        <p>盛世光明合作商信息管理系统</p>
+        <el-button style="float: right;margin-top:30px;" type="info">退出</el-button>
+    </div>
     <el-row>
-        <el-col :span="6">
+        <el-col :span="4" class="left">
             <div class="grid-content bg-purple-dark">
-                <button></button>
+                <!-- <button></button> -->
             </div>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="20" :offset="4" style="padding: 40px;margin-top: 100px;">
             <div class="grid-content bg-purple-dark">
                 <template>
                     <!--查询头-->

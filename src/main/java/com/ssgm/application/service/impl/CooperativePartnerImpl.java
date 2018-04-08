@@ -31,6 +31,7 @@ public class CooperativePartnerImpl implements CooperativePartnerService {
     private CooperativePartnerMapper cooperativePartnerMapper;
 
     public Page<CooperativePartner> findList(String parameter, int pageNum, int pageSize) {
+//        parameter="'%"+parameter+"%'";
         Page<CooperativePartner> page = PageHelper.startPage(pageNum, pageSize);
         this.cooperativePartnerMapper.findList(parameter);
         return page;
