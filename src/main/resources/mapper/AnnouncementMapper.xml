@@ -23,11 +23,11 @@
   <select id="findList" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
-    from announcement
-    where (file_name like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-    or content like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-    or upload_time like CONCAT('%',#{parameter,jdbcType=DATE},'%')
-    or neeq_time like CONCAT('%',#{parameter,jdbcType=DATE},'%'))
+      from announcement
+    where (file_name like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or content like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or upload_time like binary CONCAT('%',#{parameter,jdbcType=DATE},'%')
+    or neeq_time like binary CONCAT('%',#{parameter,jdbcType=DATE},'%'))
     AND del=0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -77,7 +77,7 @@
 <div id="app">
     <div class="header">
         <p>盛世光明合作商信息管理系统</p>
-        <el-button style="float: right;margin-top:30px;" type="info">退出</el-button>
+        <el-button style="float: right;margin-top:30px;" type="info" onclick="window.location.href='${cxt}/login/loginOut'">退出</el-button>
     </div>
     <el-row>
         <el-col :span="4" class="left">

@@ -30,18 +30,18 @@
             color: #99a9bf;
         }
 
-        .left{
+        .left {
             position: fixed;
-            top:100px;
+            top: 100px;
             bottom: 0;
             background-color: #324157;
         }
 
-        body{
-            margin:0;
+        body {
+            margin: 0;
         }
 
-        .header{
+        .header {
             position: fixed;
             top: 0;
             left: 0;
@@ -52,7 +52,7 @@
             height: 100px;
         }
 
-        .header>p{
+        .header > p {
             font-size: 40px;
             font-weight: bold;
             text-align: center;
@@ -68,12 +68,13 @@
 <div id="app">
     <div class="header">
         <p>盛世光明合作商信息管理系统</p>
-        <el-button style="float: right;margin-top:30px;" type="info">退出</el-button>
+        <el-button style="float: right;margin-top:30px;" type="info"
+                   onclick="window.location.href='${cxt}/login/loginOut'">退出
+        </el-button>
     </div>
     <el-row>
         <el-col :span="4" class="left">
             <div class="grid-content bg-purple-dark">
-                <!-- <button>退出</button> -->
             </div>
         </el-col>
         <el-col :span="20" :offset="4" style="padding: 40px;margin-top: 100px;">

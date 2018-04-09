@@ -24,9 +24,9 @@
     select
     <include refid="Base_Column_List"/>
     from partner
-    where name like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-    or phone like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-    or create_time like CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
+    where name like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or phone like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or create_time like binary CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

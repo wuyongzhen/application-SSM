@@ -40,9 +40,9 @@
         select
         <include refid="Base_Column_List"/>
         from cooperative_partner
-        where mobile like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-        or principal like CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
-        or creation_time like CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
+        where mobile like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+        or principal like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+        or creation_time like binary CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
     </select>
     <select id="conditionQuery" parameterType="java.lang.String" resultMap="BaseResultMap">
         select

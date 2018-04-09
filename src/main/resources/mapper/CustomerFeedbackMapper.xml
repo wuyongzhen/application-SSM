@@ -20,7 +20,7 @@
         <include refid="Base_Column_List"/>
         from customer_feedback
         where type = #{parameter,jdbcType=TINYINT}
-        or creation_time like CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
+        or creation_time like binary CONCAT('%',#{parameter,jdbcType=TIMESTAMP},'%')
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

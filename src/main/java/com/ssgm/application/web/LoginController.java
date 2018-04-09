@@ -8,10 +8,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static org.springframework.util.StringUtils.isEmpty;
@@ -72,5 +75,16 @@ public class LoginController {
             return url;
         }
         return "error";
+    }
+
+    @RequestMapping("loginOut")
+    public String loginOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //false代表：不创建session对象，只是从request中获取。
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "/login/skipLoginPage";
+        }
+        session.removeAttribute("user");
+        return "/login/skipLoginPage";
     }
 }
