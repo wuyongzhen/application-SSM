@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author By: Wu Yongzhen
@@ -17,6 +18,16 @@ import javax.servlet.http.HttpSession;
  **/
 
 public class SecurityInterceptor implements HandlerInterceptor {
+    private List<String> exceptUrls;
+
+    public List<String> getExceptUrls() {
+        return exceptUrls;
+    }
+
+    public void setExceptUrls(List<String> exceptUrls) {
+        this.exceptUrls = exceptUrls;
+    }
+
     public final static String SEESION_MEMBER = "user";
 
     /**
@@ -26,8 +37,23 @@ public class SecurityInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        String contextPath = request.getContextPath();
-        String url = request.getServletPath().toString();
+        String requestUri = request.getRequestURI();
+        if (requestUri.startsWith(request.getContextPath())) {
+            requestUri = requestUri.substring(request.getContextPath().length(), requestUri.length());
+        }
+        //放行exceptUrls中配置的url
+        for (String url : exceptUrls
+                ) {
+            if (url.equals(requestUri)) {
+                return true;
+            } else if (url.endsWith("/**")) {
+                if (requestUri.startsWith(url.substring(0, url.length() - 3))) {
+                    return true;
+                }
+            } else if (requestUri.startsWith(url)) {
+                return true;
+            }
+        }
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(SEESION_MEMBER);
         if (StringUtils.isEmpty(user)) {

@@ -37,21 +37,32 @@
     <context:component-scan base-package="com.ssgm.application.web"/>
 
     <!--5.配置拦截器-->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/login/**"/>
-            <mvc:exclude-mapping path="/**/fonts/*"/>
-            <mvc:exclude-mapping path="/**/*.css"/>
-            <mvc:exclude-mapping path="/**/*.js"/>
-            <mvc:exclude-mapping path="/**/*.png"/>
-            <mvc:exclude-mapping path="/**/*.gif"/>
-            <mvc:exclude-mapping path="/**/*.jpg"/>
-            <mvc:exclude-mapping path="/**/*.jpeg"/>
-            <mvc:exclude-mapping path="/**/*.PDF"/>
-            <bean class="com.ssgm.application.util.SecurityInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<mvc:exclude-mapping path="/login/**"/>-->
+            <!--<mvc:exclude-mapping path="/**/fonts/*"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.css"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.js"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.png"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.gif"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.jpg"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.jpeg"/>-->
+            <!--<mvc:exclude-mapping path="/**/*.PDF"/>-->
+            <!--<bean class="com.ssgm.application.util.SecurityInterceptor">-->
+                <!--<property name="exceptUrls">-->
+                    <!--<list>-->
+                        <!--<value>/customerFeedback/add</value>-->
+                        <!--<value>/cooperation/add</value>-->
+                        <!--<value>/partner/add</value>-->
+                        <!--<value>/login</value>-->
+                        <!--&lt;!&ndash;<value>/user/register</value>&ndash;&gt;-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:interceptor>-->
+
+    <!--</mvc:interceptors>-->
 
     <!--文件上传解析器-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

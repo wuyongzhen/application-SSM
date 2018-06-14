@@ -34,18 +34,18 @@
             width: 50%;
         }
 
-        .left{
+        .left {
             position: fixed;
-            top:100px;
+            top: 100px;
             bottom: 0;
             background-color: #324157;
         }
 
-        body{
-            margin:0;
+        body {
+            margin: 0;
         }
 
-        .header{
+        .header {
             position: fixed;
             top: 0;
             left: 0;
@@ -56,7 +56,7 @@
             height: 100px;
         }
 
-        .header>p{
+        .header > p {
             font-size: 40px;
             font-weight: bold;
             text-align: center;
@@ -72,7 +72,9 @@
 <div id="app">
     <div class="header">
         <p>盛世光明合作商信息管理系统</p>
-        <el-button style="float: right;margin-top:30px;" type="info" onclick="window.location.href='${cxt}/login/loginOut'">退出</el-button>
+        <el-button style="float: right;margin-top:30px;" type="info"
+                   onclick="window.location.href='${cxt}/login/loginOut'">退出
+        </el-button>
     </div>
     <el-row>
         <el-col :span="4" class="left">
@@ -114,12 +116,6 @@
                                     <el-table-column type="expand">
                                         <template slot-scope="props">
                                             <el-form label-position="left" inline class="demo-table-expand">
-                                                <el-form-item label="成立时间">
-                                                    <span>{{ props.row.establishedTime }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="法人代表">
-                                                    <span>{{ props.row.legalPersonality }}</span>
-                                                </el-form-item>
                                                 <el-form-item label="职务">
                                                     <span>{{ props.row.duty }}</span>
                                                 </el-form-item>
@@ -132,12 +128,6 @@
                                                 <el-form-item label="主营业务">
                                                     <span>{{ props.row.business }}</span>
                                                 </el-form-item>
-                                                <el-form-item label="客户主体">
-                                                    <span>{{ props.row.clientSubject }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司核心优势">
-                                                    <span>{{ props.row.advantage }}</span>
-                                                </el-form-item>
                                                 <el-form-item label="申请北京考察">
                                                     <span>{{ props.row.inspect }}</span>
                                                 </el-form-item>
@@ -146,12 +136,6 @@
                                                 </el-form-item>
                                                 <el-form-item label="公司地址">
                                                     <span>{{ props.row.companyAddress }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司人数">
-                                                    <span>{{ props.row.companyScale }}</span>
-                                                </el-form-item>
-                                                <el-form-item label="公司性质">
-                                                    <span>{{ props.row.nature }}</span>
                                                 </el-form-item>
                                             </el-form>
                                         </template>
@@ -167,10 +151,6 @@
                                     <el-table-column
                                             label="注册资本"
                                             prop="registeredCapital">
-                                    </el-table-column>
-                                    <el-table-column
-                                            label="公司年流水"
-                                            prop="companyWater">
                                     </el-table-column>
                                     <el-table-column
                                             label="负责人"
@@ -261,7 +241,14 @@
                     var project = ['网路宝（盛世云+无线WI-FI监管）项目', '网路神警上网行为审计项目（大型场所）', '特征码采集（卡扣）项目', '食品安全快检技术项目']
                     var nature = ['个体', '独资', '股份制']
                     for (var i = 0; i < res.data.pageData.length; i++) {
-                        data.pageData[i].intention = project[data.pageData[i].intention - 1];
+                        if (data.pageData[i].intention != null) {
+                            var list = data.pageData[i].intention.split(",");
+                            var string = "";
+                            for (var z = 0; z < list.length; z++) {
+                                string = string + project[list[z]] + "; ";
+                            }
+                            data.pageData[i].intention = string;
+                        }
                         data.pageData[i].nature = nature[data.pageData[i].nature - 1];
                         data.pageData[i].inspect = data.pageData[i].inspect == 0 ? '否' : '是';
                         data.pageData[i].establishedTime = moment(data.pageData[i].establishedTime).format('YYYY-MM-DD');//moment.js 格式化时间戳
@@ -290,7 +277,6 @@
             },
             //根据时间搜索
             search_time: function () {
-                console.log(this.date + "11111")
                 this.loadData(this.date, this.currentPage, this.pagesize);
                 this.date = ''
             },
@@ -306,8 +292,8 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(({value}) => {
-                    console.log(row+"---"+index+"----"+value)
-                    this.save_remark(row,value);
+                    console.log(row + "---" + index + "----" + value)
+                    this.save_remark(row, value);
 
                     this.$message({
                         type: 'success',
@@ -321,11 +307,11 @@
                 });
 
             },
-            save_remark(row,value) {
+            save_remark(row, value) {
                 axios.get('${cxt}/cooperation/saveRemark', {
                     params: {
-                        id:row,
-                        remark:value
+                        id: row,
+                        remark: value
                     }
                 });
             }

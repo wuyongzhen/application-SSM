@@ -57,11 +57,8 @@ public class PartnerController {
      * @Date 11:47 2018/3/16
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Map<String, Object> add(@RequestBody Partner parameters) {
-        int i = PartnerService.insertPartner(parameters);
-        Map map = new HashMap();
-        map.put("status", i);
-        return map;
+    public Integer add(Partner parameters) {
+        return PartnerService.insertPartner(parameters);
     }
 
     /**

@@ -37,7 +37,7 @@ public class CooperativePartner {
 
     private Byte inspect;
 
-    private Byte intention;
+    private String intention;
 
     private String remark;
 
@@ -181,11 +181,11 @@ public class CooperativePartner {
         this.inspect = inspect;
     }
 
-    public Byte getIntention() {
+    public String getIntention() {
         return intention;
     }
 
-    public void setIntention(Byte intention) {
+    public void setIntention(String intention) {
         this.intention = intention;
     }
 

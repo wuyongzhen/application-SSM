@@ -57,10 +57,8 @@ public class CooperativePartnerController {
      * @Date 9:41 2018/3/16
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Map<String, Object> add(@RequestBody CooperativePartner parameters) {
+    public void add(CooperativePartner parameters) {
         cooperativePartnerService.insertCooperativePartner(parameters);
-        System.out.println(parameters);
-        return null;
     }
 
     /**

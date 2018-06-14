@@ -19,7 +19,7 @@
         <result column="client_subject" jdbcType="VARCHAR" property="clientSubject"/>
         <result column="advantage" jdbcType="VARCHAR" property="advantage"/>
         <result column="inspect" jdbcType="TINYINT" property="inspect"/>
-        <result column="intention" jdbcType="TINYINT" property="intention"/>
+        <result column="intention" jdbcType="VARCHAR" property="intention"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime"/>
         <result column="del_state" jdbcType="TINYINT" property="delState"/>
@@ -68,7 +68,7 @@
       #{nature,jdbcType=TINYINT}, #{principal,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{companyWater,jdbcType=VARCHAR}, 
       #{companyScale,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR}, #{clientSubject,jdbcType=VARCHAR}, 
-      #{advantage,jdbcType=VARCHAR}, #{inspect,jdbcType=TINYINT}, #{intention,jdbcType=TINYINT}, 
+      #{advantage,jdbcType=VARCHAR}, #{inspect,jdbcType=TINYINT}, #{intention,jdbcType=VARCHAR},
       #{remark,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP}, #{delState,jdbcType=TINYINT}
       )
   </insert>
@@ -192,7 +192,7 @@
                 #{inspect,jdbcType=TINYINT},
             </if>
             <if test="intention != null">
-                #{intention,jdbcType=TINYINT},
+                #{intention,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
@@ -257,7 +257,7 @@
                 inspect = #{inspect,jdbcType=TINYINT},
             </if>
             <if test="intention != null">
-                intention = #{intention,jdbcType=TINYINT},
+                intention = #{intention,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
@@ -289,7 +289,7 @@
       client_subject = #{clientSubject,jdbcType=VARCHAR},
       advantage = #{advantage,jdbcType=VARCHAR},
       inspect = #{inspect,jdbcType=TINYINT},
-      intention = #{intention,jdbcType=TINYINT},
+      intention = #{intention,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       creation_time = #{creationTime,jdbcType=TIMESTAMP},
       del_state = #{delState,jdbcType=TINYINT}

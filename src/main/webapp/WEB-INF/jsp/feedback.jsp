@@ -26,18 +26,18 @@
             color: #99a9bf;
         }
 
-        .left{
+        .left {
             position: fixed;
-            top:100px;
+            top: 100px;
             bottom: 0;
             background-color: #324157;
         }
 
-        body{
-            margin:0;
+        body {
+            margin: 0;
         }
 
-        .header{
+        .header {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,7 +48,7 @@
             height: 100px;
         }
 
-        .header>p{
+        .header > p {
             font-size: 40px;
             font-weight: bold;
             text-align: center;
@@ -64,7 +64,9 @@
 <div id="app">
     <div class="header">
         <p>盛世光明合作商信息管理系统</p>
-        <el-button style="float: right;margin-top:30px;" type="info" onclick="window.location.href='${cxt}/login/loginOut'">退出</el-button>
+        <el-button style="float: right;margin-top:30px;" type="info"
+                   onclick="window.location.href='${cxt}/login/loginOut'">退出
+        </el-button>
     </div>
     <el-row>
         <el-col :span="4" class="left">
@@ -108,15 +110,6 @@
                                         :data="cooperation"
                                         border
                                         style="width: 100%">
-                                    <el-table-column type="expand">
-                                        <template slot-scope="props">
-                                            <el-form label-position="left" inline class="demo-table-expand">
-                                                <el-form-item label="反馈内容">
-                                                    <span>{{ props.row.content }}</span>
-                                                </el-form-item>
-                                            </el-form>
-                                        </template>
-                                    </el-table-column>
                                     <el-table-column
                                             type="index"
                                             :index="indexMethod">
@@ -130,8 +123,8 @@
                                             prop="phone">
                                     </el-table-column>
                                     <el-table-column
-                                            label="QQ"
-                                            prop="qq">
+                                            label="反馈内容"
+                                            prop="content">
                                     </el-table-column>
                                     <el-table-column
                                             label="反馈类型"
@@ -142,6 +135,7 @@
                                             label="反馈时间"
                                             prop="creationTime">
                                     </el-table-column>
+
                                     <el-table-column label="操作">
                                         <template slot-scope="scope">
                                             <el-button
