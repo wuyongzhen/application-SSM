@@ -245,7 +245,7 @@
                             var list = data.pageData[i].intention.split(",");
                             var string = "";
                             for (var z = 0; z < list.length; z++) {
-                                string = string + project[list[z]] + "; ";
+                                string = string + project[list[z]-1] + "; ";
                             }
                             data.pageData[i].intention = string;
                         }
