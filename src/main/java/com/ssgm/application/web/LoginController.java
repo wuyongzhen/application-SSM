@@ -82,9 +82,9 @@ public class LoginController {
         //false代表：不创建session对象，只是从request中获取。
         HttpSession session = request.getSession(false);
         if (session == null) {
-            return "/login/skipLoginPage";
+            return "login";
         }
         session.removeAttribute("user");
-        return "/login/skipLoginPage";
+        return "login";
     }
 }
