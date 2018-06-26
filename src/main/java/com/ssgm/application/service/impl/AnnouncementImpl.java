@@ -26,7 +26,6 @@ public class AnnouncementImpl implements AnnouncementService {
         Page<Announcement> page = PageHelper.startPage(pageNum, pageSize);
         this.announcementMapper.findList(parameter);
         return page;
-
     }
 
     @Override

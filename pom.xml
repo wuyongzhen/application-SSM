@@ -8,6 +8,15 @@
     <name>application Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
+        <!--邮件-->
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
         <!--上传-->
         <dependency>
             <groupId>commons-fileupload</groupId>

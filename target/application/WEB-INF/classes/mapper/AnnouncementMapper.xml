@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssgm.application.dao.AnnouncementMapper">
+  <resultMap id="BaseResultMap" type="com.ssgm.application.entity.Announcement">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="upload_time" jdbcType="DATE" property="uploadTime" />
+    <result column="neeq_time" jdbcType="DATE" property="neeqTime" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+    <result column="del" jdbcType="TINYINT" property="del" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, file_name, content, upload_time, neeq_time, file_size, del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from announcement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询公告列表-->
+  <select id="findList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+      from announcement
+    where (file_name like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or content like binary CONCAT('%',#{parameter,jdbcType=VARCHAR},'%')
+    or upload_time like binary CONCAT('%',#{parameter,jdbcType=DATE},'%')
+    or neeq_time like binary CONCAT('%',#{parameter,jdbcType=DATE},'%'))
+    AND del=0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from announcement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ssgm.application.entity.Announcement">
+    insert into announcement (id, file_name, content, 
+      upload_time, neeq_time, file_size, 
+      del)
+    values (#{id,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{uploadTime,jdbcType=DATE}, #{neeqTime,jdbcType=DATE}, #{fileSize,jdbcType=BIGINT}, 
+      #{del,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssgm.application.entity.Announcement">
+    insert into announcement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
+      <if test="neeqTime != null">
+        neeq_time,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=DATE},
+      </if>
+      <if test="neeqTime != null">
+        #{neeqTime,jdbcType=DATE},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssgm.application.entity.Announcement">
+    update announcement
+    <set>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        upload_time = #{uploadTime,jdbcType=DATE},
+      </if>
+      <if test="neeqTime != null">
+        neeq_time = #{neeqTime,jdbcType=DATE},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssgm.application.entity.Announcement">
+    update announcement
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      upload_time = #{uploadTime,jdbcType=DATE},
+      neeq_time = #{neeqTime,jdbcType=DATE},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      del = #{del,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
